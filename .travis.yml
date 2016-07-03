@@ -1,0 +1,23 @@
+language: r
+sudo: false
+cache: packages
+
+addons:
+  apt:
+    packages:
+    - libglpk-dev
+
+r_github_packages:
+  - dirkschumacher/ompr
+  - hadley/testthat
+  - jimhester/covr
+
+notifications:
+  email:
+    on_success: change
+    on_failure: change
+
+warnings_are_errors: false
+
+after_success:
+  - Rscript -e 'covr::coveralls()'

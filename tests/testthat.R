@@ -1,0 +1,7 @@
+library(testthat)
+library(magrittr)
+library(ROI)
+library(ROI.plugin.glpk)
+library(ompr)
+library(ompr.roi)
+test_check("ompr.roi")
