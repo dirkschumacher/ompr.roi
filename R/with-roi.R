@@ -145,7 +145,7 @@ with_ROI <- function(solver, verbose = FALSE) {
                   bounds = bounds,
                   types = column_types,
                   max = model@objective@direction == "max")
-    result <- ROI::ROI_solve(op, solver)
+    result <- ROI::ROI_solve(op, solver, verbose = verbose)
 
     status <- if (result$status$code == 0) "optimal" else "infeasible"
     solution <- ROI::solution(result)
