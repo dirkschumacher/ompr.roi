@@ -48,7 +48,7 @@ test_that("ROI interprets obj. min direction correctly", {
 
 test_that("symphony can solve a model", {
   weights <- c(1, 2, 3)
-  result <- add_variable(new("Model"), x[i], i = 1:3, type = "binary") %>%
+  result <- add_variable(MIPModel(), x[i], i = 1:3, type = "binary") %>%
     add_constraint(sum_exp(x[i], i = 1:3), "==", 1) %>%
     set_objective(sum_exp(x[i] * weights[i], i = 1:3) + 5) %>%
     solve_model(with_ROI(solver = "glpk"))
@@ -61,7 +61,7 @@ test_that("ROI can solve a bin packing problem", {
   bin_size <- 3
   n <- 5
   weights <- rep.int(1, n)
-  m <- new("Model")
+  m <- MIPModel()
   m <- add_variable(m, y[i], i = 1:max_bins, type = "binary")
   m <- add_variable(m, x[i, j], i = 1:max_bins, j = 1:n, type = "binary")
   m <- set_objective(m, sum_exp(y[i], i = 1:max_bins), "min")
@@ -80,7 +80,7 @@ test_that("quantified constraints work", {
   bin_size <- 3
   n <- 5
   weights <- rep.int(1, n)
-  m <- new("Model")
+  m <- MIPModel()
   m <- add_variable(m, y[i], i = 1:max_bins, type = "binary")
   m <- add_variable(m, x[i, j], i = 1:max_bins, j = 1:n, type = "binary")
   m <- set_objective(m, sum_exp(y[i], i = 1:max_bins), direction = "min")
