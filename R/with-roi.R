@@ -62,7 +62,8 @@ with_ROI <- function(solver, verbose = FALSE) {
         }
         setNames(var_coef$coef, search_key)
       }, coefficients))
-      coef_positions <- which(var_list %in% names(bound_coefs))
+      coef_positions <- match(names(bound_coefs), var_list)
+      coef_positions <- coef_positions[!is.na(coef_positions)]
       if (length(coef_positions) > 0) {
         coef_vector[coef_positions] <- as.numeric(bound_coefs)
       }
@@ -93,6 +94,7 @@ with_ROI <- function(solver, verbose = FALSE) {
         rhs_constant = coefficients_rhs$constant
       )
     })
+
     constraint_matrix <- t(rbind(sapply(matrices, function(constraint) {
       constraint$lhs - constraint$rhs
     })))

@@ -96,3 +96,14 @@ test_that("quantified constraints work", {
   result <- solve_model(m, with_ROI(solver = "glpk"))
   expect_equal(result@objective_value, 2)
 })
+
+test_that("bug 20160704: did not correctly convert constraint", {
+  n <- 2
+  r <- MIPModel() %>%
+   add_variable(x[i,j], i = 1:n, j = 1:n, type = "binary") %>%
+   add_variable(u[i], i = 1:n, lb = 1, ub = n) %>%
+   set_objective(0) %>%
+   add_constraint(u[i] + 1, "<=", u[j] + n * (1 - x[i,j]), i = 1:n, j = 1:n) %>%
+   solve_model(with_ROI(solver = "glpk"))
+  expect_equal(r@status, "optimal")
+})
