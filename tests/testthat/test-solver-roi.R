@@ -30,10 +30,17 @@ test_that("ROI correctly flags an infeasible problem", {
 })
 
 test_that("ROI has a verbose option", {
-  m <- add_variable(MIPModel(), x, type = "continuous", lb = 10) %>%
+  m <- add_variable(MIPModel(), x, type = "continuous", lb = 1) %>%
     set_objective(x, direction = "max") %>%
     add_constraint(x, "<=", 3)
   expect_output(solve_model(m, with_ROI(solver = "glpk", verbose = TRUE)))
+})
+
+test_that("symphony has a verbose option", {
+  m <- add_variable(MIPModel(), x, type = "continuous", lb = 1) %>%
+    set_objective(x, direction = "max") %>%
+    add_constraint(x, "<=", 3)
+  expect_output(solve_model(m, with_ROI(solver = "symphony", verbose = TRUE)))
 })
 
 test_that("ROI interprets obj. max direction correctly", {

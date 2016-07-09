@@ -6,6 +6,7 @@ addons:
   apt:
     packages:
     - libglpk-dev
+    - r-cran-rsymphony
 
 r_github_packages:
   - dirkschumacher/ompr
