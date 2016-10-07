@@ -1,7 +1,7 @@
 Package: ompr.roi
 Type: Package
 Title: ROI Bindings for OMPR
-Version: 0.1.0
+Version: 0.3.2
 Author: Dirk Schumacher
 Maintainer: Dirk Schumacher <mail@dirk-schumacher.net>
 Description: ROI bindings for OMPR
@@ -10,7 +10,7 @@ LazyData: TRUE
 RoxygenNote: 5.0.1
 Imports:
   ROI,
-  ompr
+  ompr (>= 0.3.2)
 Suggests:
   testthat,
   magrittr,

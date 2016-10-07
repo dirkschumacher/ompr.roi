@@ -16,7 +16,7 @@ test_that("ROI stops when there is no constraint", {
 test_that("ROI correctly flags an unbounded problem", {
   result <- add_variable(MIPModel(), x, type = "continuous") %>%
     set_objective(x, direction = "max") %>%
-    add_constraint(x, ">=", 0) %>%
+    add_constraint(x >= 0) %>%
     solve_model(with_ROI(solver = "glpk"))
   expect_equal(result@status, "infeasible")
 })
@@ -24,7 +24,7 @@ test_that("ROI correctly flags an unbounded problem", {
 test_that("ROI correctly flags an infeasible problem", {
   result <- add_variable(MIPModel(), x, type = "continuous", lb = 10) %>%
     set_objective(x, direction = "max") %>%
-    add_constraint(x, "<=", 3) %>%
+    add_constraint(x <= 3) %>%
     solve_model(with_ROI(solver = "glpk"))
   expect_equal(result@status, "infeasible")
 })
@@ -32,21 +32,14 @@ test_that("ROI correctly flags an infeasible problem", {
 test_that("ROI has a verbose option", {
   m <- add_variable(MIPModel(), x, type = "continuous", lb = 1) %>%
     set_objective(x, direction = "max") %>%
-    add_constraint(x, "<=", 3)
+    add_constraint(x <= 3)
   expect_output(solve_model(m, with_ROI(solver = "glpk", verbose = TRUE)))
-})
-
-test_that("symphony has a verbose option", {
-  m <- add_variable(MIPModel(), x, type = "continuous", lb = 1) %>%
-    set_objective(x, direction = "max") %>%
-    add_constraint(x, "<=", 3)
-  expect_output(solve_model(m, with_ROI(solver = "symphony", verbose = TRUE)))
 })
 
 test_that("ROI interprets obj. max direction correctly", {
   result <- add_variable(MIPModel(), x, type = "continuous", ub = 10) %>%
     set_objective(x, direction = "max") %>%
-    add_constraint(x, "<=", 80) %>%
+    add_constraint(x <= 80) %>%
     solve_model(with_ROI(solver = "glpk"))
   expect_equal(result@objective_value, 10)
   expect_equal(names(result@solution), c("x"))
@@ -55,7 +48,7 @@ test_that("ROI interprets obj. max direction correctly", {
 test_that("ROI interprets obj. min direction correctly", {
   result <- add_variable(MIPModel(), x, type = "continuous", lb = 10) %>%
     set_objective(x, direction = "min") %>%
-    add_constraint(x, ">=", 0) %>%
+    add_constraint(x >= 0) %>%
     solve_model(with_ROI(solver = "glpk"))
   expect_equal(result@objective_value, 10)
 })
@@ -63,7 +56,7 @@ test_that("ROI interprets obj. min direction correctly", {
 test_that("symphony can solve a model", {
   weights <- c(1, 2, 3)
   result <- add_variable(MIPModel(), x[i], i = 1:3, type = "binary") %>%
-    add_constraint(sum_exp(x[i], i = 1:3), "==", 1) %>%
+    add_constraint(sum_exp(x[i], i = 1:3) == 1) %>%
     set_objective(sum_exp(x[i] * weights[i], i = 1:3) + 5) %>%
     solve_model(with_ROI(solver = "glpk"))
   expect_equal(result@objective_value, 8)
@@ -80,10 +73,10 @@ test_that("ROI can solve a bin packing problem", {
   m <- add_variable(m, x[i, j], i = 1:max_bins, j = 1:n, type = "binary")
   m <- set_objective(m, sum_exp(y[i], i = 1:max_bins), "min")
   for(i in 1:max_bins) {
-    m <- add_constraint(m, sum_exp(weights[j] * x[i, j], j = 1:n), "<=", y[i] * bin_size)
+    m <- add_constraint(m, sum_exp(weights[j] * x[i, j], j = 1:n) <= y[i] * bin_size)
   }
   for(j in 1:n) {
-    m <- add_constraint(m, sum_exp(x[i, j], i = 1:max_bins), "==", 1)
+    m <- add_constraint(m, sum_exp(x[i, j], i = 1:max_bins) == 1)
   }
   result <- solve_model(m, with_ROI(solver = "glpk"))
   expect_equal(result@objective_value, 2)
@@ -98,8 +91,8 @@ test_that("quantified constraints work", {
   m <- add_variable(m, y[i], i = 1:max_bins, type = "binary")
   m <- add_variable(m, x[i, j], i = 1:max_bins, j = 1:n, type = "binary")
   m <- set_objective(m, sum_exp(y[i], i = 1:max_bins), direction = "min")
-  m <- add_constraint(m, sum_exp(weights[j] * x[i, j], j = 1:n), "<=", y[i] * bin_size, i = 1:max_bins)
-  m <- add_constraint(m, sum_exp(x[i, j], i = 1:max_bins), "==", 1, j = 1:n)
+  m <- add_constraint(m, sum_exp(weights[j] * x[i, j], j = 1:n) <= y[i] * bin_size, i = 1:max_bins)
+  m <- add_constraint(m, sum_exp(x[i, j], i = 1:max_bins) == 1, j = 1:n)
   result <- solve_model(m, with_ROI(solver = "glpk"))
   expect_equal(result@objective_value, 2)
 })
@@ -110,7 +103,21 @@ test_that("bug 20160704: did not correctly convert constraint", {
    add_variable(x[i,j], i = 1:n, j = 1:n, type = "binary") %>%
    add_variable(u[i], i = 1:n, lb = 1, ub = n) %>%
    set_objective(0) %>%
-   add_constraint(u[i] + 1, "<=", u[j] + n * (1 - x[i,j]), i = 1:n, j = 1:n) %>%
+   add_constraint(u[i] + 1 <= u[j] + n * (1 - x[i,j]), i = 1:n, j = 1:n) %>%
    solve_model(with_ROI(solver = "glpk"))
+  expect_equal(r@status, "optimal")
+})
+
+test_that("can solve a model with variable bounds", {
+  n <- 2
+  r <- MIPModel() %>%
+    add_variable(x[i, j], i = 1:n, j = 1:n, type = "integer", lb = 0, ub = 1) %>%
+    set_bounds(x[i, j], i = 1:n, j = 1:n, lb = 0, ub = 0) %>%
+    set_objective(sum_exp(x[i, j], i = 1:n, j = 1:n)) %>%
+    add_constraint(sum_exp(x[i, j], i = 1:n, j = 1:n) <= 10) %>%
+    solve_model(with_ROI(solver = "glpk"))
+  result <- get_solution(r, x[i, j])
+  expect_equal(nrow(result[result$value == 1, ]), 2)
+  expect_equal(nrow(result), 4)
   expect_equal(r@status, "optimal")
 })

@@ -33,15 +33,27 @@ with_ROI <- function(solver, verbose = FALSE) {
     column_bounds_l <- unlist(lapply(names(vars), function(key) {
       var <- vars[[key]]
       lb <- if (length(var@lb) == 0) -Inf else var@lb
-      if (var@type == "binary") lb <- 0
-      rep.int(x = lb, times = length(var@instances))
+      if (length(var@lb) == 0 && var@type == "binary") lb <- 0
+      n_instances <- length(var@instances)
+      n_bounds <- length(lb)
+      if (n_instances != n_bounds) {
+        rep.int(x = lb, times = n_instances)
+      } else {
+        lb
+      }
     }))
 
     column_bounds_u <- unlist(lapply(names(vars), function(key) {
       var <- vars[[key]]
       ub <- if (length(var@ub) == 0) Inf else var@ub
-      if (var@type == "binary") ub <- 1
-      rep.int(x = ub, times = length(var@instances))
+      if (length(var@ub) == 0 && var@type == "binary") ub <- 1
+      n_instances <- length(var@instances)
+      n_bounds <- length(ub)
+      if (n_instances != n_bounds) {
+        rep.int(x = ub, times = n_instances)
+      } else {
+        ub
+      }
     }))
 
     # build objective coeffcient vector
@@ -137,8 +149,8 @@ with_ROI <- function(solver, verbose = FALSE) {
                                     dir = constraint_dir,
                                     rhs = constraint_rhs)
     bounds <- ROI::V_bound(
-      li = 1:length(column_bounds_l),
-      ui = 1:length(column_bounds_u),
+      li = seq_len(length(column_bounds_l)),
+      ui = seq_len(length(column_bounds_u)),
       lb = column_bounds_l,
       ub = column_bounds_u
     )
