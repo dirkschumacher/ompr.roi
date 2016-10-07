@@ -4,7 +4,8 @@
 #' @param verbose should status information be printed
 #'
 #' @return a function: Model -> Solution
-#'
+#' @importFrom methods new
+#' @importFrom stats setNames
 #' @export
 with_ROI <- function(solver, verbose = FALSE) {
   registered_solvers <- ROI::ROI_registered_solvers()

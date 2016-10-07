@@ -1,16 +1,17 @@
 Package: ompr.roi
 Type: Package
 Title: ROI Bindings for OMPR
-Version: 0.3.2
+Version: 0.3.3
 Author: Dirk Schumacher
 Maintainer: Dirk Schumacher <mail@dirk-schumacher.net>
-Description: ROI bindings for OMPR
+Description: ROI bindings for OMPR.
 License: GPL (>= 3) + file LICENSE
 LazyData: TRUE
 RoxygenNote: 5.0.1
 Imports:
   ROI,
-  ompr (>= 0.3.2)
+  methods,
+  ompr (>= 0.3.3)
 Suggests:
   testthat,
   magrittr,
