@@ -1,13 +1,13 @@
 #' Configures a solver based on ROI
 #'
 #' @param solver the ROI solver name
-#' @param verbose should status information be printed
+#' @param ... optional parameters passed to the ROI_solve.
 #'
 #' @return a function: Model -> Solution
 #' @importFrom methods new
 #' @importFrom stats setNames
 #' @export
-with_ROI <- function(solver, verbose = FALSE) {
+with_ROI <- function(solver, ...) {
   registered_solvers <- ROI::ROI_registered_solvers()
   if (!(solver %in% names(registered_solvers))) {
     stop(paste0(solver, " is not among the registered ROI solvers. "))
@@ -179,11 +179,7 @@ with_ROI <- function(solver, verbose = FALSE) {
                   bounds = bounds,
                   types = column_types,
                   max = model@objective@direction == "max")
-    solver_options <- list(verbose = verbose)
-    if (solver == "symphony") {
-      solver_options$verbosity <- if (verbose) 1 else -2
-    }
-    result <- ROI::ROI_solve(op, solver, control = solver_options)
+    result <- ROI::ROI_solve(op, solver, ...)
 
     status <- if (result$status$code == 0) "optimal" else "infeasible"
     solution <- ROI::solution(result)

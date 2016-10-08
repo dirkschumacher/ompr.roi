@@ -4,12 +4,12 @@
 \alias{with_ROI}
 \title{Configures a solver based on ROI}
 \usage{
-with_ROI(solver, verbose = FALSE)
+with_ROI(solver, ...)
 }
 \arguments{
 \item{solver}{the ROI solver name}
 
-\item{verbose}{should status information be printed}
+\item{...}{optional parameters passed to the ROI_solve.}
 }
 \value{
 a function: Model -> Solution
