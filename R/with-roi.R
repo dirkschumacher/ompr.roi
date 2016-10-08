@@ -149,11 +149,30 @@ with_ROI <- function(solver, verbose = FALSE) {
     constraints <- ROI::L_constraint(L = constraint_matrix,
                                     dir = constraint_dir,
                                     rhs = constraint_rhs)
+
+    # remove those lbs that are 0
+    # and those ubs that are Inf
+    # otherwise ROI throws a warnning
+    li <- seq_len(length(column_bounds_l))
+    ui <- seq_len(length(column_bounds_u))
+    lb <- column_bounds_l
+    ub <- column_bounds_u
+    if (length(li) > 0) {
+      lb_zero <- lb == 0
+      li <- li[!lb_zero]
+      lb <- lb[!lb_zero]
+    }
+    if (length(ui) > 0) {
+      ub_inf <- ub == Inf
+      ui <- ui[!ub_inf]
+      ub <- ub[!ub_inf]
+    }
     bounds <- ROI::V_bound(
-      li = seq_len(length(column_bounds_l)),
-      ui = seq_len(length(column_bounds_u)),
-      lb = column_bounds_l,
-      ub = column_bounds_u
+      li = li,
+      ui = ui,
+      lb = lb,
+      ub = ub,
+      nobj = max(length(li), length(ui))
     )
     op <- ROI::OP(obj_fun,
                   constraints,

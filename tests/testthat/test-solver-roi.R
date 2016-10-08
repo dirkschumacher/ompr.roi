@@ -121,3 +121,14 @@ test_that("can solve a model with variable bounds", {
   expect_equal(nrow(result), 4)
   expect_equal(r@status, "optimal")
 })
+
+test_that("bug 20161006 #75: warning messge when setting bound on single var", {
+  #expect_silent({
+    MIPModel() %>%
+    add_variable(x, type = "integer") %>%
+    add_variable(y, type = "continuous", lb = 0) %>%
+    set_bounds(x, lb = 0) %>%
+    set_objective(x + y, "max") %>%
+    add_constraint(x + y <= 11.25) %>%
+    solve_model(with_ROI(solver = "glpk"))#})
+})
