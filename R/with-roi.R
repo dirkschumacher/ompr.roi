@@ -167,13 +167,17 @@ with_ROI <- function(solver, ...) {
       ui <- ui[!ub_inf]
       ub <- ub[!ub_inf]
     }
-    bounds <- ROI::V_bound(
-      li = li,
-      ui = ui,
-      lb = lb,
-      ub = ub,
-      nobj = max(length(li), length(ui))
-    )
+    if (length(ui) + length(li) > 0) {
+      bounds <- ROI::V_bound(
+        li = li,
+        ui = ui,
+        lb = lb,
+        ub = ub,
+        nobj = max(li, ui)
+      )
+    } else {
+      bounds <- NULL
+    }
     op <- ROI::OP(obj_fun,
                   constraints,
                   bounds = bounds,

@@ -123,12 +123,23 @@ test_that("can solve a model with variable bounds", {
 })
 
 test_that("bug 20161006 #75: warning messge when setting bound on single var", {
-  #expect_silent({
+  expect_silent({
     MIPModel() %>%
     add_variable(x, type = "integer") %>%
     add_variable(y, type = "continuous", lb = 0) %>%
     set_bounds(x, lb = 0) %>%
     set_objective(x + y, "max") %>%
     add_constraint(x + y <= 11.25) %>%
-    solve_model(with_ROI(solver = "glpk"))#})
+    solve_model(with_ROI(solver = "glpk"))})
 })
+
+test_that("bug 20161011 #82: problems with bound indexes", {
+  N <- 10
+  model <- MIPModel() %>%
+    add_variable(x[i], lb = 0, i = 1:N) %>%
+    add_variable(a[i, j, s], type = "binary", i = 1:N, j = 1:N, s = 1:3) %>%
+    set_objective(0) %>%
+    add_constraint(x[1] <= 1)
+  solve_model(model, with_ROI("glpk"))
+})
+

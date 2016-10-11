@@ -1,7 +1,7 @@
 Package: ompr.roi
 Type: Package
 Title: ROI Bindings for OMPR
-Version: 0.4.0
+Version: 0.4.1
 Author: Dirk Schumacher
 Maintainer: Dirk Schumacher <mail@dirk-schumacher.net>
 Description: ROI bindings for OMPR.
