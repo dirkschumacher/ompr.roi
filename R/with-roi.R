@@ -39,7 +39,6 @@ with_ROI <- function(solver, ...) {
       rep.int(x = var@type, times = length(var@instances))
     }))
     ncols <- length(var_list)
-    nrows <- length(model@constraints)
 
     # build column bounds
     column_bounds_l <- unlist(lapply(names(vars), function(key) {
@@ -74,12 +73,13 @@ with_ROI <- function(solver, ...) {
       coef_vector <- rep.int(0, ncols)
       coefficients <- extracted_coefficients
       names(coefficients) <- NULL
-      obj_constant <- extracted_coefficients$constant
       bound_coefs <- unlist(Map(function(var_coef) {
         var_ast <- var_coef$ast
         if (is.call(var_ast) && length(var_ast) > 1) {
           var_name <- as.character(var_ast[[2]])
-          search_key <- paste0(c(var_name, as.character(var_ast[3:length(var_ast)])), collapse = "_")
+          search_key <- paste0(c(var_name,
+                                 as.character(var_ast[3:length(var_ast)])),
+                               collapse = "_")
         } else {
           var_name <- as.character(var_ast)
           search_key <- var_name
@@ -94,7 +94,8 @@ with_ROI <- function(solver, ...) {
       coef_vector
     }
     if (!is.null(objective)) {
-      coefficients <- ompr::extract_coefficients(model@objective@expression[[1]])
+      coefficients <- ompr::extract_coefficients(
+        model@objective@expression[[1]])
       obj_constant <- coefficients$constant
       if (!is.numeric(obj_constant)) obj_constant <- 0
       coefficients <- coefficients$coefficients

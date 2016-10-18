@@ -72,10 +72,11 @@ test_that("ROI can solve a bin packing problem", {
   m <- add_variable(m, y[i], i = 1:max_bins, type = "binary")
   m <- add_variable(m, x[i, j], i = 1:max_bins, j = 1:n, type = "binary")
   m <- set_objective(m, sum_expr(y[i], i = 1:max_bins), "min")
-  for(i in 1:max_bins) {
-    m <- add_constraint(m, sum_expr(weights[j] * x[i, j], j = 1:n) <= y[i] * bin_size)
+  for (i in 1:max_bins) {
+    m <- add_constraint(m,
+          sum_expr(weights[j] * x[i, j], j = 1:n) <= y[i] * bin_size)
   }
-  for(j in 1:n) {
+  for (j in 1:n) {
     m <- add_constraint(m, sum_expr(x[i, j], i = 1:max_bins) == 1)
   }
   result <- solve_model(m, with_ROI(solver = "glpk"))
@@ -91,7 +92,9 @@ test_that("quantified constraints work", {
   m <- add_variable(m, y[i], i = 1:max_bins, type = "binary")
   m <- add_variable(m, x[i, j], i = 1:max_bins, j = 1:n, type = "binary")
   m <- set_objective(m, sum_expr(y[i], i = 1:max_bins), direction = "min")
-  m <- add_constraint(m, sum_expr(weights[j] * x[i, j], j = 1:n) <= y[i] * bin_size, i = 1:max_bins)
+  m <- add_constraint(m,
+        sum_expr(weights[j] * x[i, j], j = 1:n) <= y[i] * bin_size,
+        i = 1:max_bins)
   m <- add_constraint(m, sum_expr(x[i, j], i = 1:max_bins) == 1, j = 1:n)
   result <- solve_model(m, with_ROI(solver = "glpk"))
   expect_equal(result@objective_value, 2)
@@ -100,10 +103,10 @@ test_that("quantified constraints work", {
 test_that("bug 20160704: did not correctly convert constraint", {
   n <- 2
   r <- MIPModel() %>%
-   add_variable(x[i,j], i = 1:n, j = 1:n, type = "binary") %>%
+   add_variable(x[i, j], i = 1:n, j = 1:n, type = "binary") %>%
    add_variable(u[i], i = 1:n, lb = 1, ub = n) %>%
    set_objective(0) %>%
-   add_constraint(u[i] + 1 <= u[j] + n * (1 - x[i,j]), i = 1:n, j = 1:n) %>%
+   add_constraint(u[i] + 1 <= u[j] + n * (1 - x[i, j]), i = 1:n, j = 1:n) %>%
    solve_model(with_ROI(solver = "glpk"))
   expect_equal(r@status, "optimal")
 })
@@ -111,7 +114,8 @@ test_that("bug 20160704: did not correctly convert constraint", {
 test_that("can solve a model with variable bounds", {
   n <- 2
   r <- MIPModel() %>%
-    add_variable(x[i, j], i = 1:n, j = 1:n, type = "integer", lb = 0, ub = 1) %>%
+    add_variable(x[i, j], i = 1:n, j = 1:n,
+                 type = "integer", lb = 0, ub = 1) %>%
     set_bounds(x[i, j], i = 1:n, j = 1:n, lb = 0, ub = 0) %>%
     set_objective(sum_expr(x[i, j], i = 1:n, j = 1:n)) %>%
     add_constraint(sum_expr(x[i, j], i = 1:n, j = 1:n) <= 10) %>%
@@ -130,7 +134,8 @@ test_that("bug 20161006 #75: warning messge when setting bound on single var", {
     set_bounds(x, lb = 0) %>%
     set_objective(x + y, "max") %>%
     add_constraint(x + y <= 11.25) %>%
-    solve_model(with_ROI(solver = "glpk"))})
+    solve_model(with_ROI(solver = "glpk"))
+  })
 })
 
 test_that("bug 20161011 #82: problems with bound indexes", {
