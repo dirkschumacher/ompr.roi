@@ -4,8 +4,10 @@
 \name{ompr.roi}
 \alias{ompr.roi}
 \alias{ompr.roi-package}
-\title{ompr.roi}
+\title{A Solver for ompr that uses the R Optimization Infrastructure (ROI)}
 \description{
-Solve OMPR models with ROI
+A solver for ompr based on the R Optimization Infrastructure (ROI).
+The package makes all solvers in ROI available to solve ompr models. See the
+ompr website/package docs for examples on how to use it.
 }
 
