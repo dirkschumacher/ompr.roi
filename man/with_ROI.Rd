@@ -17,4 +17,15 @@ a function: Model -> Solution
 \description{
 Configures a solver based on ROI
 }
+\examples{
+library(magrittr)
+library(ompr)
+library(ROI)
+library(ROI.plugin.glpk)
+add_variable(MIPModel(), x, type = "continuous") \%>\%
+ set_objective(x, direction = "max") \%>\%
+ add_constraint(x >= 0) \%>\%
+ solve_model(with_ROI(solver = "glpk"))
+
+}
 

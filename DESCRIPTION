@@ -1,17 +1,21 @@
 Package: ompr.roi
 Type: Package
-Title: ROI Bindings for OMPR
-Version: 0.4.1
-Author: Dirk Schumacher
-Maintainer: Dirk Schumacher <mail@dirk-schumacher.net>
-Description: ROI bindings for OMPR.
-License: GPL (>= 3) + file LICENSE
+Title: A Solver for ompr that uses the R Optimization Infrastructure (ROI)
+Version: 0.4.1.9000
+Authors@R: person("Dirk", "Schumacher", email = "mail@dirk-schumacher.net",
+            role = c("aut", "cre", "cph"))
+Description: A solver for OMPR based on the R Optimization Infrastructure (ROI).
+  The package makes all solvers in ROI available to solve ompr models. See the
+  ompr website/package docs for examples on how to use it.
+License: GPL (>= 3)
 LazyData: TRUE
 RoxygenNote: 5.0.1
+URL: https://dirkschumacher.github.io/ompr
+BugReports: https://github.com/dirkschumacher/ompr/issues
 Imports:
   ROI,
   methods,
-  ompr (>= 0.3.3)
+  ompr (>= 0.4.0.9000)
 Suggests:
   testthat,
   magrittr,
