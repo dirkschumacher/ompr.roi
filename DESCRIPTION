@@ -10,8 +10,8 @@ Description: A solver for OMPR based on the R Optimization Infrastructure (ROI).
 License: GPL (>= 3)
 LazyData: TRUE
 RoxygenNote: 5.0.1
-URL: https://dirkschumacher.github.io/ompr
-BugReports: https://github.com/dirkschumacher/ompr/issues
+URL: https://dirkschumacher.github.io/ompr.roi
+BugReports: https://github.com/dirkschumacher/ompr.roi/issues
 Imports:
   ROI,
   methods,
