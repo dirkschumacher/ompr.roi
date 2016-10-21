@@ -18,7 +18,7 @@ test_that("ROI correctly flags an unbounded problem", {
     set_objective(x, direction = "max") %>%
     add_constraint(x >= 0) %>%
     solve_model(with_ROI(solver = "glpk"))
-  expect_equal(result@status, "infeasible")
+  expect_equal(result$status, "infeasible")
 })
 
 test_that("ROI correctly flags an infeasible problem", {
@@ -26,7 +26,7 @@ test_that("ROI correctly flags an infeasible problem", {
     set_objective(x, direction = "max") %>%
     add_constraint(x <= 3) %>%
     solve_model(with_ROI(solver = "glpk"))
-  expect_equal(result@status, "infeasible")
+  expect_equal(result$status, "infeasible")
 })
 
 test_that("ROI has a verbose option", {
@@ -41,8 +41,8 @@ test_that("ROI interprets obj. max direction correctly", {
     set_objective(x, direction = "max") %>%
     add_constraint(x <= 80) %>%
     solve_model(with_ROI(solver = "glpk"))
-  expect_equal(result@objective_value, 10)
-  expect_equal(names(result@solution), c("x"))
+  expect_equal(result$objective_value, 10)
+  expect_equal(names(result$solution), c("x"))
 })
 
 test_that("ROI interprets obj. min direction correctly", {
@@ -50,7 +50,7 @@ test_that("ROI interprets obj. min direction correctly", {
     set_objective(x, direction = "min") %>%
     add_constraint(x >= 0) %>%
     solve_model(with_ROI(solver = "glpk"))
-  expect_equal(result@objective_value, 10)
+  expect_equal(result$objective_value, 10)
 })
 
 test_that("symphony can solve a model", {
@@ -59,8 +59,8 @@ test_that("symphony can solve a model", {
     add_constraint(sum_expr(x[i], i = 1:3) == 1) %>%
     set_objective(sum_expr(x[i] * weights[i], i = 1:3) + 5) %>%
     solve_model(with_ROI(solver = "glpk"))
-  expect_equal(result@objective_value, 8)
-  expect_equal(names(result@solution), c("x[1]", "x[2]", "x[3]"))
+  expect_equal(result$objective_value, 8)
+  expect_equal(names(result$solution), c("x[1]", "x[2]", "x[3]"))
 })
 
 test_that("ROI can solve a bin packing problem", {
@@ -80,7 +80,7 @@ test_that("ROI can solve a bin packing problem", {
     m <- add_constraint(m, sum_expr(x[i, j], i = 1:max_bins) == 1)
   }
   result <- solve_model(m, with_ROI(solver = "glpk"))
-  expect_equal(result@objective_value, 2)
+  expect_equal(result$objective_value, 2)
 })
 
 test_that("quantified constraints work", {
@@ -97,7 +97,7 @@ test_that("quantified constraints work", {
         i = 1:max_bins)
   m <- add_constraint(m, sum_expr(x[i, j], i = 1:max_bins) == 1, j = 1:n)
   result <- solve_model(m, with_ROI(solver = "glpk"))
-  expect_equal(result@objective_value, 2)
+  expect_equal(result$objective_value, 2)
 })
 
 test_that("bug 20160704: did not correctly convert constraint", {
@@ -108,7 +108,7 @@ test_that("bug 20160704: did not correctly convert constraint", {
    set_objective(0) %>%
    add_constraint(u[i] + 1 <= u[j] + n * (1 - x[i, j]), i = 1:n, j = 1:n) %>%
    solve_model(with_ROI(solver = "glpk"))
-  expect_equal(r@status, "optimal")
+  expect_equal(r$status, "optimal")
 })
 
 test_that("can solve a model with variable bounds", {
@@ -123,7 +123,7 @@ test_that("can solve a model with variable bounds", {
   result <- get_solution(r, x[i, j])
   expect_equal(nrow(result[result$value == 1, ]), 0)
   expect_equal(nrow(result), 4)
-  expect_equal(r@status, "optimal")
+  expect_equal(r$status, "optimal")
 })
 
 test_that("bug 20161006 #75: warning messge when setting bound on single var", {
