@@ -4,8 +4,8 @@ Title: A Solver for OMPR that Uses the R Optimization Infrastructure (ROI)
 Version: 0.4.1.9000
 Authors@R: person("Dirk", "Schumacher", email = "mail@dirk-schumacher.net",
             role = c("aut", "cre", "cph"))
-Description: A solver for OMPR based on the R Optimization Infrastructure (ROI).
-  The package makes all solvers in ROI available to solve ompr models. See the
+Description: A solver for 'ompr' based on the R Optimization Infrastructure ('ROI').
+  The package makes all solvers in 'ROI' available to solve 'ompr' models. See the
   ompr website/package docs for examples on how to use it.
 License: GPL-3 + file LICENSE
 LazyData: TRUE
