@@ -1,7 +1,7 @@
 #' Configures a solver based on ROI
 #'
 #' @param solver the ROI solver name
-#' @param ... optional parameters passed to the ROI_solve.
+#' @param ... optional parameters passed to ROI_solve
 #'
 #' @return a function: Model -> Solution
 #' @importFrom stats setNames

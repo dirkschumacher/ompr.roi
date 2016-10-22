@@ -9,7 +9,7 @@ with_ROI(solver, ...)
 \arguments{
 \item{solver}{the ROI solver name}
 
-\item{...}{optional parameters passed to the ROI_solve.}
+\item{...}{optional parameters passed to ROI_solve}
 }
 \value{
 a function: Model -> Solution
