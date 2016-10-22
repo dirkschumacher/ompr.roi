@@ -3,4 +3,3 @@
 ^appveyor\.yml$
 ^\.travis\.yml$
 ^\.lintr$
-^LICENSE
