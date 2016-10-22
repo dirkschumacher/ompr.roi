@@ -14,8 +14,7 @@ URL: https://dirkschumacher.github.io/ompr.roi
 BugReports: https://github.com/dirkschumacher/ompr.roi/issues
 Imports:
   ROI,
-  methods,
-  ompr (>= 0.4.0.9000)
+  ompr (>= 0.4.0.9001)
 Suggests:
   testthat,
   magrittr,

@@ -4,7 +4,6 @@
 #' @param ... optional parameters passed to the ROI_solve.
 #'
 #' @return a function: Model -> Solution
-#' @importFrom methods new
 #' @importFrom stats setNames
 #'
 #' @examples
@@ -25,27 +24,27 @@ with_ROI <- function(solver, ...) {
   }
   function(model) {
     # define the order of all variables
-    vars <- model@variables
+    vars <- model$variables
     var_list <- unlist(lapply(names(vars), function(key) {
       var <- vars[[key]]
-      if (length(var@instances) == 1 && nchar(var@instances) == 0) {
+      if (length(var$instances) == 1 && nchar(var$instances) == 0) {
         key
       } else {
-        paste0(key, "_", var@instances)
+        paste0(key, "_", var$instances)
       }
     }))
     column_types <- unlist(lapply(names(vars), function(key) {
       var <- vars[[key]]
-      rep.int(x = var@type, times = length(var@instances))
+      rep.int(x = var$type, times = length(var$instances))
     }))
     ncols <- length(var_list)
 
     # build column bounds
     column_bounds_l <- unlist(lapply(names(vars), function(key) {
       var <- vars[[key]]
-      lb <- if (length(var@lb) == 0) -Inf else var@lb
-      if (length(var@lb) == 0 && var@type == "binary") lb <- 0
-      n_instances <- length(var@instances)
+      lb <- if (length(var$lb) == 0) -Inf else var$lb
+      if (length(var$lb) == 0 && var$type == "binary") lb <- 0
+      n_instances <- length(var$instances)
       n_bounds <- length(lb)
       if (n_instances != n_bounds) {
         rep.int(x = lb, times = n_instances)
@@ -56,9 +55,9 @@ with_ROI <- function(solver, ...) {
 
     column_bounds_u <- unlist(lapply(names(vars), function(key) {
       var <- vars[[key]]
-      ub <- if (length(var@ub) == 0) Inf else var@ub
-      if (length(var@ub) == 0 && var@type == "binary") ub <- 1
-      n_instances <- length(var@instances)
+      ub <- if (length(var$ub) == 0) Inf else var$ub
+      if (length(var$ub) == 0 && var$type == "binary") ub <- 1
+      n_instances <- length(var$instances)
       n_bounds <- length(ub)
       if (n_instances != n_bounds) {
         rep.int(x = ub, times = n_instances)
@@ -68,7 +67,7 @@ with_ROI <- function(solver, ...) {
     }))
 
     # build objective coeffcient vector
-    objective <- model@objective
+    objective <- model$objective
     build_coefficent_vector <- function(extracted_coefficients) {
       coef_vector <- rep.int(0, ncols)
       coefficients <- extracted_coefficients
@@ -95,7 +94,7 @@ with_ROI <- function(solver, ...) {
     }
     if (!is.null(objective)) {
       coefficients <- ompr::extract_coefficients(
-        model@objective@expression[[1]])
+        model$objective$expression[[1]])
       obj_constant <- coefficients$constant
       if (!is.numeric(obj_constant)) obj_constant <- 0
       coefficients <- coefficients$coefficients
@@ -107,10 +106,10 @@ with_ROI <- function(solver, ...) {
     }
 
     # build constraint matrix
-    matrices <- lapply(model@constraints, function(constraint) {
-      coefficients_lhs <- ompr::extract_coefficients(constraint@lhs[[1]])
-      coefficients_rhs <- ompr::extract_coefficients(constraint@rhs[[1]])
-      direction <- constraint@direction
+    matrices <- lapply(model$constraints, function(constraint) {
+      coefficients_lhs <- ompr::extract_coefficients(constraint$lhs[[1]])
+      coefficients_rhs <- ompr::extract_coefficients(constraint$rhs[[1]])
+      direction <- constraint$direction
       list(
         lhs = build_coefficent_vector(coefficients_lhs$coefficients),
         rhs = build_coefficent_vector(coefficients_rhs$coefficients),
@@ -194,7 +193,7 @@ with_ROI <- function(solver, ...) {
                   constraints,
                   bounds = bounds,
                   types = column_types,
-                  max = model@objective@direction == "max")
+                  max = model$objective$direction == "max")
     result <- ROI::ROI_solve(op, solver, ...)
 
     status <- if (result$status$code == 0) "optimal" else "infeasible"
@@ -211,8 +210,7 @@ with_ROI <- function(solver, ...) {
         var
       }
     })
-    solution <- new("Solution",
-                    status = status,
+    solution <- ompr::new_solution(status = status,
                     model = model,
                     objective_value = result$objval + obj_constant,
                     solution = solution)
