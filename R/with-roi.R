@@ -157,9 +157,15 @@ with_ROI <- function(solver, ...) {
     # build ROI OP (optimization problem)
 
     obj_fun <- ROI::L_objective(obj_vector)
+    if (length(constraint_dir) == 0) {
+     constraint_matrix <- matrix(nrow = 0, ncol = length(obj_vector))
+     constraint_rhs <- integer(0)
+     constraint_dir <- character(0)
+    }
     constraints <- ROI::L_constraint(L = constraint_matrix,
                                     dir = constraint_dir,
                                     rhs = constraint_rhs)
+
 
     # remove those lbs that are 0
     # and those ubs that are Inf

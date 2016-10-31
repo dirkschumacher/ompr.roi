@@ -147,3 +147,11 @@ test_that("bug 20161011 #82: problems with bound indexes", {
     add_constraint(x[1] <= 1)
   solve_model(model, with_ROI("glpk"))
 })
+
+test_that("bug 20161031 #102: model with no constraint crashes", {
+  model <- MIPModel()
+  model <- add_variable(model, x, type = "continuous", lb = 11, ub = 13)
+  model <- set_objective(model, x, "min")
+  expect_silent(result <- solve_model(model, with_ROI("glpk")))
+  expect_equal(11, as.numeric(get_solution(result, x)))
+})
