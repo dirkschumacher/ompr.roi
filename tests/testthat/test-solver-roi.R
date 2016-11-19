@@ -148,6 +148,14 @@ test_that("bug 20161011 #82: problems with bound indexes", {
   solve_model(model, with_ROI("glpk"))
 })
 
+test_that("bug 20161116 #107: it works with no objective function", {
+  model <- MIPModel()
+  model <- add_variable(model, x, type = "continuous", lb = 11, ub = 13)
+  result <- solve_model(model, with_ROI("glpk"))
+  x_val <- get_solution(result, x)
+  expect_true(x_val >= 11 && x_val <= 13)
+})
+
 test_that("bug 20161031 #102: model with no constraint crashes", {
   model <- MIPModel()
   model <- add_variable(model, x, type = "continuous", lb = 11, ub = 13)

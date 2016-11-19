@@ -92,7 +92,8 @@ with_ROI <- function(solver, ...) {
       }
       coef_vector
     }
-    if (!is.null(objective)) {
+    has_objective <- !is.null(objective)
+    if (has_objective) {
       coefficients <- ompr::extract_coefficients(
         model$objective$expression[[1]])
       obj_constant <- coefficients$constant
@@ -158,9 +159,9 @@ with_ROI <- function(solver, ...) {
 
     obj_fun <- ROI::L_objective(obj_vector)
     if (length(constraint_dir) == 0) {
-     constraint_matrix <- matrix(nrow = 0, ncol = length(obj_vector))
-     constraint_rhs <- integer(0)
-     constraint_dir <- character(0)
+      constraint_matrix <- matrix(nrow = 0, ncol = ncols)
+      constraint_rhs <- integer(0)
+      constraint_dir <- character(0)
     }
     constraints <- ROI::L_constraint(L = constraint_matrix,
                                     dir = constraint_dir,
@@ -195,11 +196,12 @@ with_ROI <- function(solver, ...) {
     } else {
       bounds <- NULL
     }
+    is_max <- !has_objective || model$objective$direction == "max"
     op <- ROI::OP(obj_fun,
                   constraints,
                   bounds = bounds,
                   types = column_types,
-                  max = model$objective$direction == "max")
+                  max = is_max)
     result <- ROI::ROI_solve(op, solver, ...)
 
     status <- if (result$status$code == 0) "optimal" else "infeasible"
