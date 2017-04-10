@@ -36,7 +36,7 @@ with_ROI <- function(solver, ...) {
     objective <- model$objective
     has_objective <- !is.null(objective)
     obj <- ompr::objective_function(model)
-    obj_vector <- obj$vector
+    obj_vector <- obj$solution
     obj_constant <- obj$constant
 
     # build constraint matrix
