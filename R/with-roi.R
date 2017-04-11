@@ -12,7 +12,7 @@
 #' library(ROI)
 #' library(ROI.plugin.glpk)
 #' add_variable(MIPModel(), x, type = "continuous") %>%
-#'  set_objective(x, direction = "max") %>%
+#'  set_objective(x, sense = "max") %>%
 #'  add_constraint(x >= 0) %>%
 #'  solve_model(with_ROI(solver = "glpk"))
 #'
@@ -36,14 +36,14 @@ with_ROI <- function(solver, ...) {
     objective <- model$objective
     has_objective <- !is.null(objective)
     obj <- ompr::objective_function(model)
-    obj_vector <- obj$vector
+    obj_vector <- obj$solution
     obj_constant <- obj$constant
 
     # build constraint matrix
     constraints <- ompr::extract_constraints(model)
     constraint_matrix <- constraints$matrix
     constraint_rhs <- constraints$rhs
-    constraint_dir <- constraints$direction
+    constraint_dir <- constraints$sense
 
     # convert types to ROI codes
     column_types_chr <- character(length(column_types))
@@ -90,7 +90,7 @@ with_ROI <- function(solver, ...) {
     } else {
       bounds <- NULL
     }
-    is_max <- !has_objective || model$objective$direction == "max"
+    is_max <- !has_objective || model$objective$sense == "max"
     op <- ROI::OP(obj_fun,
                   constraints,
                   bounds = bounds,
