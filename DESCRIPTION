@@ -5,8 +5,9 @@ Version: 0.4.1.9002
 Authors@R: person("Dirk", "Schumacher", email = "mail@dirk-schumacher.net",
             role = c("aut", "cre", "cph"))
 Description: A solver for 'ompr' based on the R Optimization Infrastructure ('ROI').
-  The package makes all solvers in 'ROI' available to solve 'ompr' models. See the
-  ompr website/package docs for examples on how to use it.
+  The package makes all solvers in 'ROI' available to solve 'ompr' models. Please see the
+  ompr website <https://dirkschumacher.github.io/ompr/> and package docs for examples on 
+  how to use it.
 License: GPL-3 + file LICENSE
 LazyData: TRUE
 RoxygenNote: 6.0.1
