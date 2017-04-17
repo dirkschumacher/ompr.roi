@@ -1,5 +1,5 @@
 # ROI bindings for OMPR
-
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ompr.roi)](https://cran.r-project.org/package=ompr.roi)
 [![Build Status](https://travis-ci.org/dirkschumacher/ompr.roi.svg?branch=master)](https://travis-ci.org/dirkschumacher/ompr.roi)
 [![Coverage Status](https://coveralls.io/repos/github/dirkschumacher/ompr.roi/badge.svg?branch=master)](https://coveralls.io/github/dirkschumacher/ompr.roi?branch=master)
 

@@ -1,8 +1,7 @@
 ## Test environments
-* local OS X install, R 3.3.1
-* ubuntu 12.04 (on travis-ci), R release and devel
-* Windows Server 2012 R2 x64 (on appveyor), R release and devel
-* win-builder (devel and release)
+* local OS X install, R 3.3.3
+* ubuntu 12.04 (on travis-ci), R release, oldrel, devel
+* Windows Server 2012 R2 x64 (on appveyor), R release, oldrel, devel
 
 ## R CMD check results
 
