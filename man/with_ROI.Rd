@@ -26,8 +26,8 @@ library(ROI)
 library(ROI.plugin.glpk)
 add_variable(MIPModel(), x, type = "continuous") \%>\%
  set_objective(x, sense = "max") \%>\%
- add_constraint(x >= 0) \%>\%
- solve_model(with_ROI(solver = "glpk"))
+ add_constraint(x <= 5) \%>\%
+ solve_model(with_ROI(solver = "glpk", verbose = TRUE))
 
 }
 \references{
