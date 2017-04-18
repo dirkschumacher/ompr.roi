@@ -1,6 +1,6 @@
 #' Configures a solver based on 'ROI'
 #'
-#' This function makes all solvers available in the R package 'ROI' to solve
+#' This function makes all solvers in the R package 'ROI' available to solve
 #' 'ompr' models.
 #'
 #' @param solver the 'ROI' solver name (character vector of length 1)

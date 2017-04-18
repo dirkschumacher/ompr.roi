@@ -16,7 +16,7 @@ a function: Model -> Solution that can be used
 together with \code{\link[ompr]{solve_model}}.
 }
 \description{
-This function makes all solvers available in the R package 'ROI' to solve
+This function makes all solvers in the R package 'ROI' available to solve
 'ompr' models.
 }
 \examples{
