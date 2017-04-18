@@ -2,20 +2,22 @@
 % Please edit documentation in R/with-roi.R
 \name{with_ROI}
 \alias{with_ROI}
-\title{Configures a solver based on ROI}
+\title{Configures a solver based on 'ROI'}
 \usage{
 with_ROI(solver, ...)
 }
 \arguments{
-\item{solver}{the ROI solver name}
+\item{solver}{the 'ROI' solver name (character vector of length 1)}
 
 \item{...}{optional parameters passed to ROI_solve}
 }
 \value{
-a function: Model -> Solution
+a function: Model -> Solution that can be used
+together with \code{\link[ompr]{solve_model}}.
 }
 \description{
-Configures a solver based on ROI
+This function makes all solvers available in the R package 'ROI' to solve
+'ompr' models.
 }
 \examples{
 library(magrittr)
@@ -27,4 +29,8 @@ add_variable(MIPModel(), x, type = "continuous") \%>\%
  add_constraint(x >= 0) \%>\%
  solve_model(with_ROI(solver = "glpk"))
 
+}
+\references{
+Kurt Hornik, David Meyer, Florian Schwendinger and Stefan Theussl (2016).
+ROI: R Optimization Infrastructure. <https://CRAN.R-project.org/package=ROI>
 }

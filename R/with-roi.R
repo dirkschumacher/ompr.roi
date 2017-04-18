@@ -1,10 +1,13 @@
-#' Configures a solver based on ROI
+#' Configures a solver based on 'ROI'
 #'
-#' @param solver the ROI solver name
+#' This function makes all solvers available in the R package 'ROI' to solve
+#' 'ompr' models.
+#'
+#' @param solver the 'ROI' solver name (character vector of length 1)
 #' @param ... optional parameters passed to ROI_solve
 #'
-#' @return a function: Model -> Solution
-#' @importFrom stats setNames
+#' @return a function: Model -> Solution that can be used
+#' together with \code{\link[ompr]{solve_model}}.
 #'
 #' @examples
 #' library(magrittr)
@@ -15,6 +18,10 @@
 #'  set_objective(x, sense = "max") %>%
 #'  add_constraint(x >= 0) %>%
 #'  solve_model(with_ROI(solver = "glpk"))
+#'
+#' @references
+#' Kurt Hornik, David Meyer, Florian Schwendinger and Stefan Theussl (2016).
+#' ROI: R Optimization Infrastructure. <https://CRAN.R-project.org/package=ROI>
 #'
 #' @export
 with_ROI <- function(solver, ...) {
