@@ -5,3 +5,4 @@
 ^\.lintr$
 ^cran-comments\.md$
 ^README\.md$
+^LICENSE

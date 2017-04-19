@@ -1,3 +1,8 @@
+## Resubmission
+This is a resubmission. In this version I have:
+
+* Removed the LICENSE file to not repeat the content of the GPL.
+  
 ## Test environments
 * local OS X install, R 3.3.3
 * ubuntu 12.04 (on travis-ci), R release, oldrel, devel
