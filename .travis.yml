@@ -8,7 +8,6 @@ addons:
     - libglpk-dev
 
 r_github_packages:
-  - dirkschumacher/ompr
   - hadley/testthat
   - jimhester/covr
 
