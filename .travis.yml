@@ -11,6 +11,9 @@ r_github_packages:
   - hadley/testthat
   - jimhester/covr
 
+bioc_packages:
+  - lpsymphony
+
 notifications:
   email:
     on_success: change
