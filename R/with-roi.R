@@ -59,12 +59,27 @@ with_ROI <- function(solver, ...) {
     column_types_chr[column_types == "continuous"] <- "C"
 
     # build ROI OP (optimization problem)
+    obj_vector <- slam::simple_triplet_matrix(rep.int(1L, length(obj_vector@i)),
+                                               obj_vector@i,
+                                               obj_vector@x,
+                                               nrow = 1,
+                                               ncol = length(obj_vector))
     obj_fun <- ROI::L_objective(obj_vector)
     if (length(constraint_dir) == 0) {
       constraint_matrix <- matrix(nrow = 0, ncol = ncols)
       constraint_rhs <- integer(0)
       constraint_dir <- character(0)
     }
+
+    # convert to triplet matrix
+    constraint_matrix <- methods::as(constraint_matrix, "dgTMatrix")
+    constraint_matrix <- slam::simple_triplet_matrix(
+      i = constraint_matrix@i + 1,
+      j = constraint_matrix@j + 1,
+      v = constraint_matrix@x,
+      nrow = constraint_matrix@Dim[1],
+      ncol = constraint_matrix@Dim[2]
+    )
     constraints <- ROI::L_constraint(L = constraint_matrix,
                                     dir = constraint_dir,
                                     rhs = constraint_rhs)
