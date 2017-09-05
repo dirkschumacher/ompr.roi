@@ -163,3 +163,24 @@ test_that("bug 20161031 #102: model with no constraint crashes", {
   expect_silent(result <- solve_model(model, with_ROI("glpk")))
   expect_equal(11, as.numeric(get_solution(result, x)))
 })
+
+test_that("you can export the model as an ROI::OP object", {
+  max_bins <- 5
+  bin_size <- 3
+  n <- 5
+  weights <- rep.int(1, n)
+  m <- MIPModel()
+  m <- add_variable(m, y[i], i = 1:max_bins, type = "binary")
+  m <- add_variable(m, x[i, j], i = 1:max_bins, j = 1:n, type = "binary")
+  m <- set_objective(m, sum_expr(y[i], i = 1:max_bins), sense = "min")
+  m <- add_constraint(m,
+                      sum_expr(weights[j] * x[i, j], j = 1:n) <= y[i] * bin_size,
+                      i = 1:max_bins)
+  m <- add_constraint(m, sum_expr(x[i, j], i = 1:max_bins) == 1, j = 1:n)
+
+  result <- as_ROI_model(m)
+  expect_s3_class(result, "OP")
+
+  # fails if a non ompr model is passed to the function
+  expect_error(as_ROI_model(TRUE))
+})
