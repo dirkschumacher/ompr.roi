@@ -6,6 +6,12 @@
 #' @param solver the 'ROI' solver name (character vector of length 1)
 #' @param ... optional parameters passed to ROI_solve
 #'
+#' ROI only returns two status codes, optimal or infeasible. In particular,
+#' this means that when the search is terminated by the user (e.g. due to a time limit),
+#' ROI flags that solution as 'infeasible'.
+#' It is currently not possible for `ompr.roi` to decide, if a solution
+#' is feasible, but not optimal. Therefore only optimal solutions are returned.
+#'
 #' @return a function: Model -> Solution that can be used
 #' together with \code{\link[ompr]{solve_model}}.
 #'
@@ -39,14 +45,22 @@ with_ROI <- function(solver, ...) {
 
     result <- ROI::ROI_solve(op, solver, ...)
 
-    status <- if (result$status$code == 0) "optimal" else "infeasible"
-    solution <- ROI::solution(result)
+    # we access the solution element directly to extract user
+    # terminated searches
+    solution <- result[["solution"]]
+    is_optimal <- ROI::ROI_plugin_solution_status_code(result) == 0
+    status <- if (is_optimal) {
+                "optimal"
+              } else {
+                "infeasible"
+              }
 
     # the solution should be named
     names(solution) <- ompr::variable_keys(model)
+    obj_val <- ROI::ROI_plugin_solution_objval(result) + obj_constant
     solution <- ompr::new_solution(status = status,
                     model = model,
-                    objective_value = result$objval + obj_constant,
+                    objective_value = obj_val,
                     solution = solution)
     solution
   }
