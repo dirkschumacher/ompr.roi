@@ -70,8 +70,8 @@ as_ROI_model <- function(model) {
   # remove those lbs that are 0
   # and those ubs that are Inf
   # otherwise ROI throws a warnning
-  li <- seq_len(length(column_bounds_l))
-  ui <- seq_len(length(column_bounds_u))
+  li <- seq_along(column_bounds_l)
+  ui <- seq_along(column_bounds_u)
   lb <- column_bounds_l
   ub <- column_bounds_u
   if (length(li) > 0) {
@@ -90,7 +90,7 @@ as_ROI_model <- function(model) {
       ui = ui,
       lb = lb,
       ub = ub,
-      nobj = max(li, ui)
+      nobj = length(obj_fun)
     )
   } else {
     bounds <- NULL
