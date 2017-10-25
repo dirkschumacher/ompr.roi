@@ -9,7 +9,13 @@ with_ROI(solver, ...)
 \arguments{
 \item{solver}{the 'ROI' solver name (character vector of length 1)}
 
-\item{...}{optional parameters passed to ROI_solve}
+\item{...}{optional parameters passed to ROI_solve
+
+ROI only returns two status codes, optimal or infeasible. In particular,
+this means that when the search is terminated by the user (e.g. due to a time limit),
+ROI flags that solution as 'infeasible'.
+It is currently not possible for `ompr.roi` to decide, if a solution
+is feasible, but not optimal. Therefore only optimal solutions are returned.}
 }
 \value{
 a function: Model -> Solution that can be used

@@ -27,6 +27,7 @@ test_that("ROI correctly flags an infeasible problem", {
     add_constraint(x <= 3) %>%
     solve_model(with_ROI(solver = "glpk"))
   expect_equal(result$status, "infeasible")
+  expect_true(is.na(ompr::objective_value(result)))
 })
 
 test_that("ROI has a verbose option", {
@@ -183,4 +184,23 @@ test_that("you can export the model as an ROI::OP object", {
 
   # fails if a non ompr model is passed to the function
   expect_error(as_ROI_model(TRUE))
+})
+
+test_that("can handle user terminated search", {
+  set.seed(42)
+  max_bins <- 20
+  bin_size <- 3
+  n <- 10
+  weights <- runif(n, max = bin_size)
+  model <- MIPModel() %>%
+    add_variable(y[i], i = 1:max_bins, type = "binary") %>%
+    add_variable(x[i, j], i = 1:max_bins, j = 1:n, type = "binary") %>%
+    set_objective(sum_expr(y[i], i = 1:max_bins), "min") %>%
+    add_constraint(sum_expr(weights[j] * x[i, j], j = 1:n) <= y[i] * bin_size, i = 1:max_bins) %>%
+    add_constraint(sum_expr(x[i, j], i = 1:max_bins) == 1, j = 1:n)
+  result <- solve_model(model, with_ROI("glpk",
+                                        control = list(tm_limit = 1000,
+                                                       presolve = FALSE, verbose = FALSE)))
+  expect_equal("userlimit", ompr::solver_status(result))
+  expect_true(ompr::objective_value(result) > 0)
 })
