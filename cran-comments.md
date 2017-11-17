@@ -1,10 +1,5 @@
-## Resubmission
-This is a resubmission. In this version I have:
-
-* Removed the LICENSE file to not repeat the content of the GPL.
-  
 ## Test environments
-* local OS X install, R 3.3.3
+* local OS X install, R 3.4.2
 * ubuntu 12.04 (on travis-ci), R release, oldrel, devel
 * Windows Server 2012 R2 x64 (on appveyor), R release, oldrel, devel
 
@@ -12,8 +7,6 @@ This is a resubmission. In this version I have:
 
 0 errors | 0 warnings | 0 notes
 
-* This is a new release.
-
 ## Reverse dependencies
 
-This is a new release, so there are no reverse dependencies.
+There are no reverse dependencies.

@@ -45,23 +45,23 @@ as_ROI_model <- function(model) {
   obj_vector <- slam::simple_triplet_matrix(rep.int(1L, length(obj_vector@i)),
                                             obj_vector@i,
                                             obj_vector@x,
-                                            nrow = 1,
+                                            nrow = 1L,
                                             ncol = length(obj_vector))
   obj_fun <- ROI::L_objective(obj_vector)
-  if (length(constraint_dir) == 0) {
-    constraint_matrix <- matrix(nrow = 0, ncol = ncols)
-    constraint_rhs <- integer(0)
-    constraint_dir <- character(0)
+  if (length(constraint_dir) == 0L) {
+    constraint_matrix <- matrix(nrow = 0L, ncol = ncols)
+    constraint_rhs <- integer(0L)
+    constraint_dir <- character(0L)
   }
 
   # convert to triplet matrix
   constraint_matrix <- methods::as(constraint_matrix, "dgTMatrix")
   constraint_matrix <- slam::simple_triplet_matrix(
-    i = constraint_matrix@i + 1,
-    j = constraint_matrix@j + 1,
+    i = constraint_matrix@i + 1L,
+    j = constraint_matrix@j + 1L,
     v = constraint_matrix@x,
-    nrow = constraint_matrix@Dim[1],
-    ncol = constraint_matrix@Dim[2]
+    nrow = constraint_matrix@Dim[1L],
+    ncol = constraint_matrix@Dim[2L]
   )
   constraints <- ROI::L_constraint(L = constraint_matrix,
                                    dir = constraint_dir,
@@ -74,17 +74,17 @@ as_ROI_model <- function(model) {
   ui <- seq_along(column_bounds_u)
   lb <- column_bounds_l
   ub <- column_bounds_u
-  if (length(li) > 0) {
+  if (length(li) > 0L) {
     lb_zero <- lb == 0
     li <- li[!lb_zero]
     lb <- lb[!lb_zero]
   }
-  if (length(ui) > 0) {
+  if (length(ui) > 0L) {
     ub_inf <- ub == Inf
     ui <- ui[!ub_inf]
     ub <- ub[!ub_inf]
   }
-  if (length(ui) + length(li) > 0) {
+  if (length(ui) + length(li) > 0L) {
     bounds <- ROI::V_bound(
       li = li,
       ui = ui,
