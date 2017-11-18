@@ -2,3 +2,4 @@
 
 export(as_ROI_model)
 export(with_ROI)
+importClassesFrom(Matrix,dgTMatrix)

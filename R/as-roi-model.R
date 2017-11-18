@@ -5,7 +5,7 @@
 #' @param model an ompr model
 #'
 #' @return an object of S3 class `ROI::OP`
-#'
+#' @importClassesFrom Matrix dgTMatrix
 #' @export
 as_ROI_model <- function(model) {
   if (class(model) != "optimization_model") {
