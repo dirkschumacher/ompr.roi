@@ -1,6 +1,7 @@
 # ompr.roi 0.7.0.9000
 
-....
+* `ompr.roi` now works with other `ompr` backends as well.
+*....
 
 # ompr.roi 0.7.0
 

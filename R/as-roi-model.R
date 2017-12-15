@@ -8,11 +8,6 @@
 #' @importClassesFrom Matrix dgTMatrix
 #' @export
 as_ROI_model <- function(model) {
-  if (class(model) != "optimization_model") {
-    stop("This function only works with models of type",
-        "'optimization_model' from package ompr", call. = FALSE)
-  }
-
   # define the order of all variables
   column_types <- ompr::variable_types(model)
   ncols <- length(column_types)
