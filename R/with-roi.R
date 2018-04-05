@@ -35,19 +35,30 @@ with_ROI <- function(solver, ...) {
     obj <- ompr::objective_function(model)
     obj_constant <- obj$constant
 
+    vars <- ompr::nvars(model)
+    is_lp <- (vars[["integer"]] + vars[["binary"]]) == 0L
+
     op <- as_ROI_model(model)
 
     result <- ROI::ROI_solve(op, solver, ...)
 
     status <- if (result$status$code == 0) "optimal" else "infeasible"
-    solution <- ROI::solution(result)
+    solution <- ROI::solution(result, type = "primal")
+    if (is_lp) {
+      solution_column_duals <- ROI::solution(result, type = "dual")
+      solution_row_duals <- rep.int(NA_real_, ompr::nconstraints(model))
+    } else {
+      solution_column_duals <- solution_row_duals <- NA_real_
+    }
 
     # the solution should be named
     names(solution) <- ompr::variable_keys(model)
     solution <- ompr::new_solution(status = status,
                     model = model,
                     objective_value = result$objval + obj_constant,
-                    solution = solution)
+                    solution = solution,
+                    solution_column_duals = solution_column_duals,
+                    solution_row_duals = solution_row_duals)
     solution
   }
 }
