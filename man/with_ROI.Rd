@@ -9,7 +9,10 @@ with_ROI(solver, ...)
 \arguments{
 \item{solver}{the 'ROI' solver name (character vector of length 1)}
 
-\item{...}{optional parameters passed to ROI_solve}
+\item{...}{optional parameters passed to ROI_solve
+
+Note: it does only support column duals. It currently does not export
+row duals.}
 }
 \value{
 a function: Model -> Solution that can be used

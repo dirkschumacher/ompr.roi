@@ -6,6 +6,9 @@
 #' @param solver the 'ROI' solver name (character vector of length 1)
 #' @param ... optional parameters passed to ROI_solve
 #'
+#' Note: it does only support column duals. It currently does not export
+#' row duals.
+#'
 #' @return a function: Model -> Solution that can be used
 #' together with \code{\link[ompr]{solve_model}}.
 #'
