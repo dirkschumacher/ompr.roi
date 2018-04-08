@@ -197,8 +197,7 @@ test_that("ROI exports column/row duals", {
 
   expected_col_duals <- rep.int(0, 10)
 
-  # no row duals ATM
-  expected_row_duals <- rep.int(NA_real_, 10)
+  expected_row_duals <- rep.int(1, 10)
 
   expect_equal(column_duals, expected_col_duals)
   expect_equal(row_duals, expected_row_duals)
@@ -231,4 +230,21 @@ test_that("it returns a solution even though the solution status is not optimal"
   expect_equal(result$status, "infeasible")
   expect_true(!is.na(result$solution))
   expect_true(!is.na(ompr::get_column_duals(result)))
+})
+
+test_that("it returns row duals", {
+  result_primal <- MILPModel() %>%
+    add_variable(x[i], i = 1:5, lb = 0) %>%
+    set_objective(5 * x[1] + 3 * x[2], sense = "max") %>%
+    add_constraint(sum_expr(x[i], i = 1:5) <= 10) %>%
+    solve_model(with_ROI("glpk"))
+
+  result_dual <- MILPModel() %>%
+    add_variable(y) %>%
+    set_objective(10 * y, sense = "min") %>%
+    add_constraint(y[rep.int(1, 5)] >= i, i = 1:5) %>%
+    solve_model(with_ROI("glpk"))
+
+  expect_equal(solver_status(result_primal), "optimal")
+  expect_equal(get_row_duals(result_primal), as.numeric(ompr::get_solution(result_dual, y)))
 })

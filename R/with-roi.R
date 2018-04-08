@@ -45,10 +45,22 @@ with_ROI <- function(solver, ...) {
     status <- if (result$status$code == 0) "optimal" else "infeasible"
     solution <- ROI::solution(result, type = "primal", force = TRUE)
     if (is_lp) {
-      solution_column_duals <- ROI::solution(result, type = "dual", force = TRUE)
-      solution_row_duals <- rep.int(NA_real_, ompr::nconstraints(model))
+      dual_solution <- ROI::solution(result, type = "dual", force = TRUE)
+      row_duals <- ROI::solution(result, "aux")
+      solution_column_duals <- function() dual_solution
+      solution_row_duals <- function() {
+        n_constraints <- ompr::nconstraints(model)
+        if (is.null(row_duals[["dual"]])) {
+          warning("ompr.roi cannot extract the row duals from the solution. Please report this as an issue", call. = FALSE)
+          rep.int(NA_real_, n_constraints)
+        } else {
+          duals <- row_duals[["dual"]]
+          stopifnot(length(duals) == n_constraints)
+          duals
+        }
+      }
     } else {
-      solution_column_duals <- solution_row_duals <- NA_real_
+      solution_column_duals <- solution_row_duals <- function() NA_real_
     }
 
     # the solution should be named
