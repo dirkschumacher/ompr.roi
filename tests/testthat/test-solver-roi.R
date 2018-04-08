@@ -223,3 +223,12 @@ test_that("ROI returns NA for column/row duals of MIPs", {
   expect_equal(row_duals, expected_row_duals)
 })
 
+test_that("it returns a solution even though the solution status is not optimal", {
+  result <- add_variable(MIPModel(), x, type = "continuous", lb = 10) %>%
+    set_objective(x, sense = "max") %>%
+    add_constraint(x <= 3) %>%
+    solve_model(with_ROI(solver = "glpk"))
+  expect_equal(result$status, "infeasible")
+  expect_true(!is.na(result$solution))
+  expect_true(!is.na(ompr::get_column_duals(result)))
+})

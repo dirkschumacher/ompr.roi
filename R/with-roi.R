@@ -43,9 +43,9 @@ with_ROI <- function(solver, ...) {
     result <- ROI::ROI_solve(op, solver, ...)
 
     status <- if (result$status$code == 0) "optimal" else "infeasible"
-    solution <- ROI::solution(result, type = "primal")
+    solution <- ROI::solution(result, type = "primal", force = TRUE)
     if (is_lp) {
-      solution_column_duals <- ROI::solution(result, type = "dual")
+      solution_column_duals <- ROI::solution(result, type = "dual", force = TRUE)
       solution_row_duals <- rep.int(NA_real_, ompr::nconstraints(model))
     } else {
       solution_column_duals <- solution_row_duals <- NA_real_

@@ -3,6 +3,7 @@
 * `ompr.roi` now works with other `ompr` backends as well.
 * Minimum supported version is now `3.4.0` since `slam` also now requires `>= 3.4`
 * It now exports column duals of LPs
+* `ompr.roi` now always returns a solution, even if the solution status is not optimal. It extracts the `ROI` solution with `force=TRUE`.
 
 # ompr.roi 0.7.0
 
