@@ -1,9 +1,14 @@
 # ompr.roi 0.7.0.9001
 
-* `ompr.roi` now works with other `ompr` backends as well.
-* Minimum supported version is now `3.4.0` since `slam` also now requires `>= 3.4`
-* It now exports column and row duals of LPs. Extracting duals might be solver dependent. It is currently only tested with GLPK.
-* `ompr.roi` now always returns a solution, even if the solution status is not optimal. It extracts the `ROI` solution with `force=TRUE`.
+## Breaking changes
+
+* The package exports column and row duals of LPs. Extracting duals might be solver dependent. Only tested with GLPK. This requires version `0.8` of ompr.
+* Minimum supported version is `3.4.0` since `slam` also requires `>= 3.4`
+
+## New features
+
+* `ompr.roi` works with other `ompr` backends as well.
+* `ompr.roi` always returns a solution, even if the solution status is not optimal. It extracts the `ROI` solution with `force=TRUE`.
 
 # ompr.roi 0.7.0
 
