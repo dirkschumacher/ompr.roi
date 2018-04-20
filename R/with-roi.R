@@ -44,10 +44,14 @@ with_ROI <- function(solver, ...) {
 
     status <- if (result$status$code == 0) "optimal" else "infeasible"
     solution <- ROI::solution(result, type = "primal", force = TRUE)
+
+    variable_names <- ompr::variable_keys(model)
     if (is_lp) {
       dual_solution <- ROI::solution(result, type = "dual", force = TRUE)
       row_duals <- ROI::solution(result, "aux")
-      solution_column_duals <- function() dual_solution
+      solution_column_duals <- function() {
+        setNames(dual_solution, variable_names)
+      }
       solution_row_duals <- function() {
         n_constraints <- ompr::nconstraints(model)
         if (is.null(row_duals[["dual"]])) {
@@ -64,7 +68,7 @@ with_ROI <- function(solver, ...) {
     }
 
     # the solution should be named
-    names(solution) <- ompr::variable_keys(model)
+    names(solution) <- variable_names
     solution <- ompr::new_solution(status = status,
                     model = model,
                     objective_value = result$objval + obj_constant,
