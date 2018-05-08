@@ -45,7 +45,7 @@ with_ROI <- function(solver, ...) {
 
     result <- ROI::ROI_solve(op, solver, ...)
 
-    status <- list(code = result$status$code, msg = result$status$msg$symbol)
+    status <- list(code = result$status$code, msg = result$status$msg$message)
     solution <- ROI::solution(result, type = "primal", force = TRUE)
 
     variable_names <- ompr::variable_keys(model)
