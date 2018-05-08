@@ -45,7 +45,7 @@ with_ROI <- function(solver, ...) {
 
     result <- ROI::ROI_solve(op, solver, ...)
 
-    status <- if (result$status$code == 0) "optimal" else "infeasible"
+    status <- list(code = result$status$code, msg = result$status$msg$symbol)
     solution <- ROI::solution(result, type = "primal", force = TRUE)
 
     variable_names <- ompr::variable_keys(model)
@@ -72,9 +72,10 @@ with_ROI <- function(solver, ...) {
 
     # the solution should be named
     names(solution) <- variable_names
-    solution <- ompr::new_solution(status = status,
+    solution <- ompr::new_solution(
                     model = model,
                     objective_value = result$objval + obj_constant,
+                    status = status,
                     solution = solution,
                     solution_column_duals = solution_column_duals,
                     solution_row_duals = solution_row_duals)
