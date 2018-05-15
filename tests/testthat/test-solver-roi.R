@@ -18,7 +18,7 @@ test_that("ROI correctly flags an unbounded problem", {
     set_objective(x, sense = "max") %>%
     add_constraint(x >= 0) %>%
     solve_model(with_ROI(solver = "glpk"))
-  expect_equal(result$status, "infeasible")
+  expect_equal(result$status$code, 1)
 })
 
 test_that("ROI correctly flags an infeasible problem", {
@@ -26,7 +26,7 @@ test_that("ROI correctly flags an infeasible problem", {
     set_objective(x, sense = "max") %>%
     add_constraint(x <= 3) %>%
     solve_model(with_ROI(solver = "glpk"))
-  expect_equal(result$status, "infeasible")
+  expect_equal(result$status$code, 1)
 })
 
 test_that("ROI has a verbose option", {
@@ -108,7 +108,7 @@ test_that("bug 20160704: did not correctly convert constraint", {
    set_objective(0) %>%
    add_constraint(u[i] + 1 <= u[j] + n * (1 - x[i, j]), i = 1:n, j = 1:n) %>%
    solve_model(with_ROI(solver = "glpk"))
-  expect_equal(r$status, "optimal")
+  expect_equal(r$status$code, 0)
 })
 
 test_that("can solve a model with variable bounds", {
@@ -123,7 +123,7 @@ test_that("can solve a model with variable bounds", {
   result <- get_solution(r, x[i, j])
   expect_equal(nrow(result[result$value == 1, ]), 0)
   expect_equal(nrow(result), 4)
-  expect_equal(r$status, "optimal")
+  expect_equal(r$status$code, 0)
 })
 
 test_that("bug 20161006 #75: warning messge when setting bound on single var", {
@@ -227,7 +227,7 @@ test_that("it returns a solution even though the solution status is not optimal"
     set_objective(x, sense = "max") %>%
     add_constraint(x <= 3) %>%
     solve_model(with_ROI(solver = "glpk"))
-  expect_equal(result$status, "infeasible")
+  expect_equal(result$status$code, 1)
   expect_true(!is.na(result$solution))
   expect_true(!is.na(ompr::get_column_duals(result)))
 })
@@ -245,6 +245,6 @@ test_that("it returns row duals", {
     add_constraint(y[rep.int(1, 5)] >= i, i = 1:5) %>%
     solve_model(with_ROI("glpk"))
 
-  expect_equal(solver_status(result_primal), "optimal")
+  expect_equal(solver_status(result_primal), 0)
   expect_equal(get_row_duals(result_primal), as.numeric(ompr::get_solution(result_dual, y)))
 })
