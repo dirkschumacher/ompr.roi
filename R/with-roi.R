@@ -53,7 +53,7 @@ with_ROI <- function(solver, ...) {
       dual_solution <- ROI::solution(result, type = "dual", force = TRUE)
       row_duals <- ROI::solution(result, "aux")
       solution_column_duals <- function() {
-        setNames(dual_solution, variable_names)
+        stats::setNames(dual_solution, variable_names)
       }
       solution_row_duals <- function() {
         n_constraints <- ompr::nconstraints(model)
