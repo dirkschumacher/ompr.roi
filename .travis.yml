@@ -2,6 +2,9 @@ language: r
 sudo: false
 cache: packages
 
+repos:
+  CRAN: https://cran.r-project.org
+
 matrix:
   include:
     - os: linux
