@@ -1,4 +1,4 @@
-# ompr.roi 0.7.0.9001
+# ompr.roi 0.8.0
 
 ## Breaking changes
 

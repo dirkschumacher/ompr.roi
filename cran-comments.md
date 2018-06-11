@@ -1,6 +1,6 @@
 ## Test environments
-* local OS X install, R 3.4.2
-* ubuntu 12.04 (on travis-ci), R release, oldrel, devel
+* local OS X install, R 3.5.0
+* ubuntu 12.04 (on travis-ci/rhub), R release, oldrel, devel
 
 * I could not test it on win-builder/appveyor, as there no Windows binaries for `ompr` yet.
 

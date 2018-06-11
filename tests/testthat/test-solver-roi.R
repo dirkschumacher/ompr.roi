@@ -195,7 +195,7 @@ test_that("ROI exports column/row duals", {
   column_duals <- get_column_duals(result)
   row_duals <- get_row_duals(result)
 
-  expected_col_duals <- setNames(rep.int(0, 10), ompr::variable_keys(model))
+  expected_col_duals <- stats::setNames(rep.int(0, 10), ompr::variable_keys(model))
 
   expected_row_duals <- rep.int(1, 10)
 
