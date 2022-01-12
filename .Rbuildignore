@@ -5,5 +5,5 @@
 ^\.lintr$
 ^cran-comments\.md$
 ^README\.md$
-^LICENSE
 ^\.github$
+^LICENSE\.md$
