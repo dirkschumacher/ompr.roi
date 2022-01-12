@@ -1,5 +1,9 @@
 # ompr.roi 0.8.0.9000
 
+* `ompr.roi` is now licensed MIT.
+* `LazyData` was removed from the `DESCRIPTION` file as is produced a
+  CRAN warning.
+
 # ompr.roi 0.8.0
 
 ## Breaking changes
