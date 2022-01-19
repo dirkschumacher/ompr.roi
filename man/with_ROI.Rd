@@ -16,7 +16,9 @@ row duals.}
 }
 \value{
 a function: Model -> Solution that can be used
-together with \code{\link[ompr]{solve_model}}.
+together with \code{\link[ompr]{solve_model}}. You can find \code{ROI}'s
+original solver \code{message} and \code{status} information in
+\code{<return_value>$ROI}.
 }
 \description{
 This function makes all solvers in the R package 'ROI' available to solve

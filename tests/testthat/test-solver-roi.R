@@ -248,3 +248,13 @@ test_that("it returns row duals", {
   expect_equal(solver_status(result_primal), "optimal")
   expect_equal(get_row_duals(result_primal), as.numeric(ompr::get_solution(result_dual, y)))
 })
+
+test_that("it exports additional ROI solver output", {
+  result <- MIPModel() %>%
+    add_variable(x[i], i = 1:10, type = "integer") %>%
+    set_objective(sum_expr(x[i], i = 1:10), sense = "min") %>%
+    add_constraint(x[i] >= i, i = 1:10) %>%
+    solve_model(with_ROI("glpk"))
+  expect_equal(result$additional_solver_output$ROI$status$code, 0)
+  expect_setequal(names(result$additional_solver_output$ROI), c("status", "message"))
+})

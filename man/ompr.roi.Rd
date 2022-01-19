@@ -3,7 +3,6 @@
 \docType{package}
 \name{ompr.roi}
 \alias{ompr.roi}
-\alias{ompr.roi-package}
 \title{A Solver for 'ompr' that Uses the R Optimization Infrastructure ('ROI')}
 \description{
 A solver for 'ompr' based on the R Optimization Infrastructure ('ROI').
