@@ -7,12 +7,18 @@
   solution and can be accessed calling `$additional_solver_output` on the
   returned value.
 
+## Breaking changes
+
+* In line with `ROI`'s way of encoding a general termination status, the
+  `solver_status(result)` is now `"success"` if `ROI` returned `code = 0`,
+  otherwise it is `"error"`.
+
 # ompr.roi 0.8.0
 
 ## Breaking changes
 
 * The package exports column and row duals of LPs. Extracting duals might be solver dependent. Only tested with GLPK. This requires version `0.8` of ompr.
-* Minimum supported version is `3.4.0` since `slam` also requires `>= 3.4`
+* Minimum supported R version is `3.4.0` since `slam` also requires `>= 3.4`
 
 ## New features
 

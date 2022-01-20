@@ -19,7 +19,7 @@ Imports:
   slam,
   methods,
   Matrix,
-  ompr (>= 0.8.1.9001)
+  ompr (>= 0.8.1.9002)
 Suggests:
   testthat,
   magrittr,

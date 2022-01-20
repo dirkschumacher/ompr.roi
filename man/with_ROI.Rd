@@ -18,7 +18,8 @@ row duals.}
 a function: Model -> Solution that can be used
 together with \code{\link[ompr]{solve_model}}. You can find \code{ROI}'s
 original solver \code{message} and \code{status} information in
-\code{<return_value>$ROI}.
+\code{<return_value>$ROI}. The \code{ompr} status code is \code{"success"}
+if \code{ROI} returns \code{code = 0} and is \code{"error"} otherwise.
 }
 \description{
 This function makes all solvers in the R package 'ROI' available to solve

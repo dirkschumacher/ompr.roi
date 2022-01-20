@@ -12,7 +12,8 @@
 #' @return a function: Model -> Solution that can be used
 #' together with \code{\link[ompr]{solve_model}}. You can find \code{ROI}'s
 #' original solver \code{message} and \code{status} information in
-#' \code{<return_value>$ROI}.
+#' \code{<return_value>$ROI}. The \code{ompr} status code is \code{"success"}
+#' if \code{ROI} returns \code{code = 0} and is \code{"error"} otherwise.
 #'
 #' @examples
 #' library(magrittr)
@@ -47,7 +48,7 @@ with_ROI <- function(solver, ...) {
 
     result <- ROI::ROI_solve(op, solver, ...)
 
-    status <- if (result$status$code == 0) "optimal" else "infeasible"
+    status <- if (result$status$code == 0) "success" else "error"
     solution <- ROI::solution(result, type = "primal", force = TRUE)
 
     variable_names <- ompr::variable_keys(model)
