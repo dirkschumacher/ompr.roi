@@ -26,6 +26,7 @@ This function makes all solvers in the R package 'ROI' available to solve
 'ompr' models.
 }
 \examples{
+\dontrun{
 library(magrittr)
 library(ompr)
 library(ROI)
@@ -34,7 +35,7 @@ add_variable(MIPModel(), x, type = "continuous") \%>\%
  set_objective(x, sense = "max") \%>\%
  add_constraint(x <= 5) \%>\%
  solve_model(with_ROI(solver = "glpk", verbose = TRUE))
-
+}
 }
 \references{
 Kurt Hornik, David Meyer, Florian Schwendinger and Stefan Theussl (2016).
