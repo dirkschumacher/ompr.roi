@@ -19,9 +19,11 @@ Imports:
   slam,
   methods,
   Matrix,
-  ompr (>= 1.0.0)
+  ompr (>= 1.0.1.9000)
 Suggests:
   testthat,
   magrittr,
   ROI.plugin.glpk
+Remotes:
+  dirkschumacher/ompr
 ByteCompile: Yes
