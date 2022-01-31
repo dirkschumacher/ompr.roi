@@ -258,3 +258,16 @@ test_that("it exports additional ROI solver output", {
   expect_equal(result$additional_solver_output$ROI$status$code, 0)
   expect_setequal(names(result$additional_solver_output$ROI), c("status", "message"))
 })
+
+test_that("ompr bug#404 will not happen again", {
+  model <- MIPModel() %>%
+    add_variable(x[i], i = 1:10, ub = 2) %>%
+    set_bounds(x[i] <= 1, i = 6:9) %>%
+    add_constraint(x[i] <= 1, i = 1:5) %>%
+    set_objective(sum_over(x[i], i = 1:10), "max")
+  soln <- solve_model(model, with_ROI(solver = "glpk"))
+  result <- get_solution(soln, x[i])
+  result <- result[order(result$i), ]
+  expect_equal(result$i, 1:10)
+  expect_equal(result$value, c(rep.int(1, 9), 2))
+})
