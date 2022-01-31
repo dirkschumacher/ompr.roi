@@ -16,6 +16,7 @@
 #' if \code{ROI} returns \code{code = 0} and is \code{"error"} otherwise.
 #'
 #' @examples
+#' \dontrun{
 #' library(magrittr)
 #' library(ompr)
 #' library(ROI)
@@ -24,7 +25,7 @@
 #'  set_objective(x, sense = "max") %>%
 #'  add_constraint(x <= 5) %>%
 #'  solve_model(with_ROI(solver = "glpk", verbose = TRUE))
-#'
+#' }
 #' @references
 #' Kurt Hornik, David Meyer, Florian Schwendinger and Stefan Theussl (2016).
 #' ROI: R Optimization Infrastructure. <https://CRAN.R-project.org/package=ROI>

@@ -1,13 +1,8 @@
 ## Test environments
-* local OS X install, R 3.5.0
-* ubuntu 12.04 (on travis-ci), R release, devel
-
-* I could not test it on win-builder/appveyor, as there no Windows binaries for `ompr` yet.
+* local Mac OS install, R 4.1.2
+* ubuntu (on github actions/rhub), R release, oldrel, devel
+* Windows (on github actions/win-builder), R release, devel
 
 ## R CMD check results
 
 0 errors | 0 warnings | 0 notes
-
-## Reverse dependencies
-
-There are no reverse dependencies.

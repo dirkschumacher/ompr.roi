@@ -1,12 +1,12 @@
 Package: ompr.roi
 Type: Package
 Title: A Solver for 'ompr' that Uses the R Optimization Infrastructure ('ROI')
-Version: 0.8.0.9000
+Version: 1.0.0.9000
 Authors@R: person("Dirk", "Schumacher", email = "mail@dirk-schumacher.net",
             role = c("aut", "cre"))
 Description: A solver for 'ompr' based on the R Optimization Infrastructure ('ROI').
   The package makes all solvers in 'ROI' available to solve 'ompr' models. Please see the
-  'ompr' website <https://dirkschumacher.github.io/ompr> and package docs for more information
+  'ompr' website <https://dirkschumacher.github.io/ompr/> and package docs for more information
   and examples on how to use it.
 License: MIT + file LICENSE
 RoxygenNote: 7.1.2
@@ -19,7 +19,7 @@ Imports:
   slam,
   methods,
   Matrix,
-  ompr (>= 0.8.1.9002)
+  ompr (>= 1.0.1.9000)
 Suggests:
   testthat,
   magrittr,

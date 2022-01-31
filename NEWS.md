@@ -1,10 +1,12 @@
-# ompr.roi 0.8.0.9000
+# ompr.roi (development version)
+
+# ompr.roi 1.0.0
 
 * `ompr.roi` is now licensed MIT.
 * `LazyData` was removed from the `DESCRIPTION` file as is produced a
   CRAN warning.
 * `ROI`'s `status` and `message` information are now part of the returned
-  solution and can be accessed calling `$additional_solver_output` on the
+  solution and can be accessed calling `additional_solver_output()` on the
   returned value.
 
 ## Breaking changes
