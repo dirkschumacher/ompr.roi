@@ -1,7 +1,7 @@
 Package: ompr.roi
 Type: Package
 Title: A Solver for 'ompr' that Uses the R Optimization Infrastructure ('ROI')
-Version: 1.0.0.9000
+Version: 1.0.1
 Authors@R: person("Dirk", "Schumacher", email = "mail@dirk-schumacher.net",
             role = c("aut", "cre"))
 Description: A solver for 'ompr' based on the R Optimization Infrastructure ('ROI').
