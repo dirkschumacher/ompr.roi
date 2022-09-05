@@ -38,10 +38,11 @@ as_ROI_model <- function(model) {
 
   # build ROI OP (optimization problem)
   obj_vector <- slam::simple_triplet_matrix(rep.int(1L, length(obj_vector@i)),
-                                            obj_vector@i,
-                                            obj_vector@x,
-                                            nrow = 1L,
-                                            ncol = length(obj_vector))
+    obj_vector@i,
+    obj_vector@x,
+    nrow = 1L,
+    ncol = length(obj_vector)
+  )
   obj_fun <- ROI::L_objective(obj_vector)
   if (length(constraint_dir) == 0L) {
     constraint_matrix <- matrix(nrow = 0L, ncol = ncols)
@@ -50,7 +51,7 @@ as_ROI_model <- function(model) {
   }
 
   # convert to triplet matrix
-  constraint_matrix <- methods::as(constraint_matrix, "dgTMatrix")
+  constraint_matrix <- methods::as(constraint_matrix, "TsparseMatrix")
   constraint_matrix <- slam::simple_triplet_matrix(
     i = constraint_matrix@i + 1L,
     j = constraint_matrix@j + 1L,
@@ -58,9 +59,11 @@ as_ROI_model <- function(model) {
     nrow = constraint_matrix@Dim[1L],
     ncol = constraint_matrix@Dim[2L]
   )
-  constraints <- ROI::L_constraint(L = constraint_matrix,
-                                   dir = constraint_dir,
-                                   rhs = constraint_rhs)
+  constraints <- ROI::L_constraint(
+    L = constraint_matrix,
+    dir = constraint_dir,
+    rhs = constraint_rhs
+  )
 
   # remove those lbs that are 0
   # and those ubs that are Inf
@@ -92,8 +95,9 @@ as_ROI_model <- function(model) {
   }
   is_max <- !has_objective || model$objective$sense == "max"
   ROI::OP(obj_fun,
-          constraints,
-          bounds = bounds,
-          types = column_types_chr,
-          max = is_max)
+    constraints,
+    bounds = bounds,
+    types = column_types_chr,
+    max = is_max
+  )
 }
