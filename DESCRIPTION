@@ -24,4 +24,6 @@ Suggests:
   testthat,
   magrittr,
   ROI.plugin.glpk
+Remotes:
+  dirkschumacher/ompr
 ByteCompile: Yes
