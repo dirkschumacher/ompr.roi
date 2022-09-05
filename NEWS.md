@@ -1,3 +1,5 @@
+# ompr.roi (development version)
+
 # ompr.roi 1.0.1
 
 * `ompr.roi` does not use a deprecated {Matrix} 1.4-2 function anymore.
