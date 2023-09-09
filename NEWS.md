@@ -1,4 +1,6 @@
-# ompr.roi (development version)
+# ompr.roi 1.0.2
+
+* Fixes a bug in how the package documentation was specified.
 
 # ompr.roi 1.0.1
 
