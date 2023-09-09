@@ -1,6 +1,7 @@
 # ompr.roi 1.0.2
 
 * Fixes a bug in how the package documentation was specified.
+* `ompr.roi` now requires at least R 3.5.0 because `ompr` requires it.
 
 # ompr.roi 1.0.1
 
